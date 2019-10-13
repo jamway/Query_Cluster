@@ -1,0 +1,13 @@
+name: Doc2Vec
+channels:
+  - defaults
+dependencies:
+  - python=3.7
+  - bokeh=1.0.0
+  - gensim=3.5.0
+  - pandas=0.23.4
+  - pandas-gbq=0.6.0
+  - pandasql=0.7.3
+  - scikit-learn=0.20.0
+  - scipy=1.1.0
+  - sklearn=0.0

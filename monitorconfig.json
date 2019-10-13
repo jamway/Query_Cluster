@@ -1,0 +1,4 @@
+{
+	"type": "pub_sub",
+	"topic":"projects/projectId/topics/topic"
+}

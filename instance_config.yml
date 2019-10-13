@@ -1,0 +1,48 @@
+resources:
+- name: doc2vecgenerator
+  type: compute.v1.instance
+  properties:
+    zone: us-east1-c
+    machineType: https://www.googleapis.com/compute/v1/projects/np-finance-thd/zones/us-east1-c/machineTypes/n1-highmem-8
+    disks:
+    - deviceName: default
+      type: PERSISTENT
+      boot: true
+      autoDelete: true
+      initializeParams:
+        sourceImage: https://www.googleapis.com/compute/v1/projects/cos-cloud/global/images/family/cos-stable
+        diskSizeGb: 256
+    networkInterfaces:
+    - network: https://www.googleapis.com/compute/v1/projects/np-finance-thd/global/networks/default
+      accessConfigs:
+      - type: ONE_TO_ONE_NAT
+    tags:
+      items:
+        - datalab
+    serviceAccounts:
+    - email: {EMAIL}
+      scopes:
+      - https://www.googleapis.com/auth/cloud-platform
+    metadata:
+      items:
+        - key: block-project-ssh-keys
+          value: 'true'
+        - key: for-user
+          value: {EMAIL}
+        - key: gce-container-declaration
+          value: |
+            spec:
+              restartPolicy: Never
+              containers:
+                - name: {DOCKER_SIMPLE}
+                  image: gcr.io/{PROJECT_ID}/{DOCKER_IMAGE}:doc2vec
+                  stdin: false
+                  env:
+                  - name: PROJECT_ID
+                    value: {PROJECT_ID}
+                  - name: DEPLOYMENT_ID
+                    value: {PROJECT_ID}-clustering
+                  - name: DOCKER_IMAGE
+                    value: {DOCKER_IMAGE}
+                  - name: QUERY
+                    value: {QUERY}
